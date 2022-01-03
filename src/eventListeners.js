@@ -11,16 +11,24 @@ function closeNav() {
 function toggleSidebar() {
   const button = document.getElementById("sidebarButton");
   button.addEventListener("click", () => {
-    const sideBar = document.getElementById("sideBar");
     const main = document.getElementById("main");
-    if (sideBar.classList.contains("toggledSideBar")) {
-      sideBar.classList.remove("toggledSideBar");
-      main.classList.remove("toggledMain");
+    const sideBar = document.getElementById("sideBar");
+    sideBar.classList.toggle("toggledSideBar");
+    main.classList.toggle("toggledMain");
+  });
+}
+
+function toggleProjects() {
+  const button = document.getElementById("projectsButton");
+  button.addEventListener("click", () => {
+    button.classList.toggle("projects-list-button-active");
+    const content = document.getElementById("projectsCollapsible");
+    if (content.style.display === "block") {
+      content.style.display = "none";
     } else {
-      sideBar.classList.add("toggledSideBar");
-      main.classList.add("toggledMain");
+      content.style.display = "block";
     }
   });
 }
 
-export { toggleSidebar };
+export { toggleSidebar, toggleProjects };

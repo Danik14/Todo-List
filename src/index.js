@@ -1,5 +1,5 @@
 import { header, main } from "./view";
-import { toggleSidebar } from "./eventListeners";
+import { toggleProjects, toggleSidebar } from "./eventListeners";
 import style from "./style.css";
 
 function App() {
@@ -10,3 +10,4 @@ function App() {
 
 App();
 toggleSidebar();
+toggleProjects();
