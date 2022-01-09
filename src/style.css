@@ -56,7 +56,6 @@ li {
 
 .sidebar-list {
   margin-top: 50px;
-  margin-left: 20px;
   display: flex;
   flex-flow: column wrap;
   align-items: flex-start;
@@ -64,13 +63,16 @@ li {
 }
 
 .sidebar li {
+  cursor: pointer;
+}
+
+.sidebar-list li {
   text-decoration: none;
   margin: 3px 0px;
-  font-size: 23px;
+  font-size: 21px;
   color: white;
   display: block;
   transition: 0.3s ease;
-  cursor: pointer;
 }
 
 .sidebar li:hover {
@@ -81,12 +83,14 @@ li {
   margin-right: 8px;
 }
 
-.projects-collapsible {
+.projectsCollapsible {
   display: none;
   overflow: hidden;
   padding-left: 50px;
-  font-size: 18px;
   transition: 0.5s ease;
+  font-size: 19px;
+  color: white;
+  display: block;
 }
 
 .projects-list-button-active {
