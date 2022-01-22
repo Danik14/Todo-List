@@ -1,3 +1,5 @@
+import { DomHelperFunctions as domHelper } from "./domHelperFunctions";
+
 function openNav() {
   document.getElementById("mySidebar").style.width = "250px";
   document.getElementById("main").style.marginLeft = "250px";
@@ -31,4 +33,20 @@ function toggleProjects() {
   });
 }
 
-export { toggleSidebar, toggleProjects };
+function addNewProject() {
+  const button = document.getElementById("addNewProjectButton");
+  const projects = document.querySelector(".projectsCollapsible > ul");
+  button.addEventListener("click", () => {
+    const li = domHelper.createElementWithClass("li", "projects-item");
+    li.innerHTML = document.getElementById("newProjectInput").value;
+    projects.appendChild(li);
+  });
+}
+
+function Events() {
+  toggleSidebar();
+  toggleProjects();
+  addNewProject();
+}
+
+export { Events };

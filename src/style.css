@@ -15,6 +15,13 @@ body {
   margin: 0;
 }
 
+button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+}
+
 ul,
 li {
   list-style-type: none;
@@ -75,8 +82,10 @@ li {
   transition: 0.3s ease;
 }
 
-.sidebar li:hover {
+.sidebar li:hover,
+.newProjectButton:hover {
   color: rgb(189, 189, 189);
+  transition: 0.5s ease;
 }
 
 .sidebar-list-item div svg {
@@ -93,6 +102,12 @@ li {
   display: block;
 }
 
+.newProjectButton {
+  transition: 0.5s ease;
+  font-size: 19px;
+  color: white;
+}
+
 .projects-list-button-active {
   color: rgb(189, 189, 189);
 }
@@ -107,4 +122,30 @@ li {
 
 .main {
   transition: margin-left 0.5s;
+}
+
+.board {
+  padding-left: 220px;
+  padding-top: 35px;
+}
+
+.taskCard {
+  box-shadow: 0 1px #cccccc;
+  padding: 5px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 80%;
+}
+
+.taskOptions button {
+  padding: 4px;
+  transition: 0.3 ease;
+  border-radius: 5px;
+}
+
+.taskOptions button:hover {
+  background-color: #cccccc;
 }
