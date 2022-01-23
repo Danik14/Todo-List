@@ -43,10 +43,37 @@ function addNewProject() {
   });
 }
 
+function taskCardCollapsible() {
+  const cards = document.getElementsByClassName("taskCard");
+  const details = document.getElementsByClassName("taskDetails");
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].addEventListener("click", () => {
+      if (details[i].style.maxHeight) {
+        details[i].style.maxHeight = null;
+      } else {
+        details[i].style.maxHeight = details[i].scrollHeight + "px";
+      }
+    });
+  }
+}
+
+function deleteButtons() {
+  const buttons = document.getElementsByClassName("deleteButton");
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", () => {
+      const taskCard =
+        buttons[i].parentElement.parentElement.parentElement.parentElement;
+      taskCard.remove();
+    });
+  }
+}
+
 function Events() {
+  taskCardCollapsible();
   toggleSidebar();
   toggleProjects();
   addNewProject();
+  deleteButtons();
 }
 
 export { Events };

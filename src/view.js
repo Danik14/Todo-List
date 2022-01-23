@@ -18,6 +18,7 @@ function header() {
   <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
 </svg>`;
   header.appendChild(addTask);
+
   return header;
 }
 
@@ -112,14 +113,25 @@ function popUpNewTask() {
       <div class="modal-body">
         <form>
           <div class="mb-3">
-            <label for="task-name" class="col-form-label">Title:</label>
-            <input type="text" class="form-control" id="task-name">
+            <label for="task-title" class="col-form-label">Title:</label>
+            <input type="text" class="form-control" id="task-title">
           </div>
           <div class="mb-3">
             <label for="description-text" class="col-form-label">Description:</label>
             <textarea class="form-control" id="description-text"></textarea>
           </div>
-          <i class="bi-alarm"></i>
+          <div class="mb-3">
+            <label for="inputDueDate" class="col-form-label">Due Date:</label>
+            <input type="datetime-local" class="form-control" id="inputDueDate">
+          </div>
+          <div class="form-group mb-3">
+            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Priority</label>
+            <select class="form-select" aria-label="Default select example">
+              <option selected value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
           
         </form>
       </div>
@@ -145,6 +157,7 @@ function boardHeader() {
 function taskOptions() {
   const options = domHelper.createElementWithClass("div", "taskOptions");
   const trash = document.createElement("button");
+  trash.classList.add("deleteButton");
   trash.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
   <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
   <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -155,22 +168,84 @@ function taskOptions() {
   return options;
 }
 
+function taskCardDetails() {
+  const div = domHelper.createElementWithClass("div", "taskDetails");
+  div.id = "taskDetails";
+  const description = domHelper.createElementWithClass(
+    "div",
+    "taskDescription"
+  );
+  const dateAndPriority = domHelper.createElementWithClass(
+    "div",
+    "dateAndPriority"
+  );
+  const date = document.createElement("p");
+  const priority = document.createElement("p");
+  const desc = document.createElement("p");
+  desc.innerHTML = "Description: 12312312313123";
+  date.innerHTML = "Due Date: 12/12/1212";
+  priority.innerHTML = "Priority: Medium";
+  description.appendChild(desc);
+  dateAndPriority.appendChild(date);
+  dateAndPriority.appendChild(priority);
+
+  div.appendChild(description);
+  div.appendChild(dateAndPriority);
+
+  return div;
+}
+
 function taskCard() {
   const card = domHelper.createElementWithClass("button", "taskCard");
+  card.id = "taskCard";
+  const cardMain = domHelper.createElementWithClass("div", "cardMain");
   const cardTitle = document.createElement("div");
   const options = taskOptions();
+
   cardTitle.innerHTML = "dummyCard";
 
-  card.appendChild(cardTitle);
-  card.appendChild(options);
+  cardMain.appendChild(cardTitle);
+  cardMain.appendChild(options);
+
+  card.appendChild(cardMain);
+  card.appendChild(taskCardDetails());
 
   return card;
+}
+
+function taskCard1() {
+  const card = domHelper.createElementWithClass("button", "taskCard");
+  card.id = "taskCard";
+  const cardMain = domHelper.createElementWithClass("div", "cardMain");
+  const cardTitle = document.createElement("div");
+  const options = taskOptions();
+
+  cardTitle.innerHTML = "dummyCard111";
+
+  cardMain.appendChild(cardTitle);
+  cardMain.appendChild(options);
+
+  card.appendChild(cardMain);
+  card.appendChild(taskCardDetails());
+
+  return card;
+}
+
+function cards() {
+  const ul = domHelper.createElementWithClass("ul", "cards");
+  domHelper.createListItems(
+    [taskCard(), taskCard(), taskCard1()],
+    ul,
+    "tasksListItem"
+  );
+
+  return ul;
 }
 
 function board() {
   const board = domHelper.createElementWithClass("section", "board");
   board.appendChild(boardHeader());
-  board.appendChild(taskCard());
+  board.appendChild(cards());
   return board;
 }
 

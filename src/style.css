@@ -130,14 +130,34 @@ li {
 }
 
 .taskCard {
-  box-shadow: 0 1px #cccccc;
   padding: 5px;
   font-size: 18px;
   display: flex;
+  flex-flow: column wrap;
   align-items: center;
   justify-content: space-between;
   width: 80%;
   max-width: 80%;
+}
+
+.cardMain,
+.taskDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row wrap;
+  width: 100%;
+  margin-top: 3px;
+}
+
+.taskDetails {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  padding: 7px 10px;
+  position: relative;
 }
 
 .taskOptions button {
@@ -148,4 +168,8 @@ li {
 
 .taskOptions button:hover {
   background-color: #cccccc;
+}
+
+.deleteButton {
+  z-index: 1;
 }
