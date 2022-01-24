@@ -69,11 +69,11 @@ li {
   justify-content: flex-start;
 }
 
-.sidebar li {
+.sidebar li button {
   cursor: pointer;
 }
 
-.sidebar-list li {
+.sidebar-list li button {
   text-decoration: none;
   margin: 3px 0px;
   font-size: 21px;
@@ -82,8 +82,9 @@ li {
   transition: 0.3s ease;
 }
 
-.sidebar li:hover,
-.newProjectButton:hover {
+.sidebar li button:hover,
+.newProjectButton:hover,
+.projectBtn:hover {
   color: rgb(189, 189, 189);
   transition: 0.5s ease;
 }
@@ -92,19 +93,25 @@ li {
   margin-right: 8px;
 }
 
+.sidebar li button {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
 .projectsCollapsible {
   display: none;
   overflow: hidden;
   padding-left: 50px;
   transition: 0.5s ease;
-  font-size: 19px;
-  color: white;
   display: block;
 }
 
-.newProjectButton {
+.newProjectButton,
+.projectBtn {
   transition: 0.5s ease;
-  font-size: 19px;
+  font-size: 20px;
   color: white;
 }
 

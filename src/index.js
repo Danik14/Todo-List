@@ -6,6 +6,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { DomHelperFunctions } from "./domHelperFunctions";
 import flatpickr from "flatpickr";
+import * as addLogic from "./additionalLogic";
 
 function App() {
   const body = document.getElementsByTagName("body")[0];

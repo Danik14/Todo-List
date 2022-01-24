@@ -5,6 +5,7 @@ function header() {
   const logo = domHelper.createElementWithClass("div", "logo");
   logo.id = "sidebarButton";
   const addTask = domHelper.createElementWithClass("button", "btn-header");
+  addTask.id = "addTaskBtn";
   addTask.setAttribute("type", "button");
   addTask.setAttribute("data-bs-toggle", "modal");
   addTask.setAttribute("data-bs-target", "#newTaskModal");
@@ -39,11 +40,10 @@ function projectsCollapsible() {
   <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z"/>
 </svg> New Project`;
 
-  domHelper.createListItems(
-    ["Project 1", "Project 2", button],
-    ul,
-    "projects-item"
-  );
+  const projectBtn = domHelper.createElementWithClass("button", "projectBtn");
+  projectBtn.innerHTML = "Project 1";
+
+  domHelper.createListItems([projectBtn, button], ul, "projects-item");
   projectsCollapsible.appendChild(ul);
 
   return projectsCollapsible;
@@ -77,15 +77,17 @@ function sidebar() {
   sidebar.id = "sideBar";
   const ul = document.createElement("ul");
   ul.classList.add("sidebar-list");
-  const projects = document.createElement("div");
+  const projects = document.createElement("button");
   projects.id = "projectsButton";
-  const home = document.createElement("div");
-  const today = document.createElement("div");
+  const inbox = document.createElement("button");
+  inbox.id = "inboxProjectButton";
+  const today = document.createElement("button");
+  today.id = "todayProjectButton";
   today.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
   <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
   <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
 </svg><span>Today</span>`;
-  home.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+  inbox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
   <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
 </svg><span>Inbox</span>`;
   projects.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar2-check" viewBox="0 0 16 16">
@@ -93,7 +95,7 @@ function sidebar() {
   <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z"/>
   <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z"/>
 </svg><span>Projects</span>`;
-  domHelper.createListItems([home, today, projects], ul, "sidebar-list-item");
+  domHelper.createListItems([inbox, today, projects], ul, "sidebar-list-item");
   sidebar.appendChild(ul);
   sidebar.appendChild(projectsCollapsible());
   return sidebar;
@@ -112,24 +114,30 @@ function popUpNewTask() {
       </div>
       <div class="modal-body">
         <form>
-          <div class="mb-3">
+          <div class="form-group mb-3">
             <label for="task-title" class="col-form-label">Title:</label>
             <input type="text" class="form-control" id="task-title">
           </div>
-          <div class="mb-3">
+          <div class="form-group mb-3">
             <label for="description-text" class="col-form-label">Description:</label>
             <textarea class="form-control" id="description-text"></textarea>
           </div>
-          <div class="mb-3">
+          <div class="form-group mb-3">
             <label for="inputDueDate" class="col-form-label">Due Date:</label>
             <input type="datetime-local" class="form-control" id="inputDueDate">
           </div>
           <div class="form-group mb-3">
-            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Priority</label>
-            <select class="form-select" aria-label="Default select example">
+            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Priority:</label>
+            <select class="form-select" aria-label="Select Priority">
               <option selected value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
+            </select>
+          </div>
+          <div class="form-group mb-3">
+            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Project:</label>
+            <select class="form-select" id="projectsSelect" aria-label="Select Project">
+              <option selected value="today">Today</option>
             </select>
           </div>
           

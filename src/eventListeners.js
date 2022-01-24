@@ -1,4 +1,5 @@
 import { DomHelperFunctions as domHelper } from "./domHelperFunctions";
+import { Task } from "./Task";
 
 function openNav() {
   document.getElementById("mySidebar").style.width = "250px";
@@ -36,10 +37,22 @@ function toggleProjects() {
 function addNewProject() {
   const button = document.getElementById("addNewProjectButton");
   const projects = document.querySelector(".projectsCollapsible > ul");
+  const projectsSelect = document.getElementById("projectsSelect");
+
   button.addEventListener("click", () => {
     const li = domHelper.createElementWithClass("li", "projects-item");
-    li.innerHTML = document.getElementById("newProjectInput").value;
-    projects.appendChild(li);
+    const projectBtn = domHelper.createElementWithClass("button", "projectBtn");
+    projectBtn.innerHTML = document.getElementById("newProjectInput").value;
+    li.appendChild(projectBtn);
+    projects.insertBefore(
+      li,
+      projects.childNodes[projects.childNodes.length - 1]
+    );
+
+    const opt = document.createElement("option");
+    opt.setAttribute("value", projectBtn.innerHTML);
+    opt.innerHTML = projectBtn.innerHTML;
+    projectsSelect.appendChild(opt);
   });
 }
 
@@ -68,12 +81,39 @@ function deleteButtons() {
   }
 }
 
-function Events() {
+function addTask() {
+  const projectsSelect = document.getElementById("projectsSelect");
+  const projects = document.querySelector(
+    ".projectsCollapsible > ul"
+  ).childNodes;
+
+  for (let i = 0; i < projects.length - 1; i++) {
+    const opt = document.createElement("option");
+    opt.setAttribute("value", projects[i].firstChild.innerHTML);
+    opt.innerHTML = projects[i].firstChild.innerHTML;
+    projectsSelect.appendChild(opt);
+  }
+}
+
+function projectSelection() {
+  const today = document.getElementById("todayProjectButton");
+  const inbox = document.getElementById("inboxProjectButton");
+  const header = document.getElementsByClassName("mainHeader")[0].firstChild;
+
+  today.addEventListener("click", () => {
+    header.innerHTML = today.lastChild.innerHTML;
+  });
+  inbox.addEventListener("click", () => {
+    header.innerHTML = inbox.lastChild.innerHTML;
+  });
+}
+
+export function Events() {
   taskCardCollapsible();
   toggleSidebar();
   toggleProjects();
   addNewProject();
+  projectSelection();
   deleteButtons();
+  addTask();
 }
-
-export { Events };
