@@ -1,5 +1,6 @@
 import { DomHelperFunctions as domHelper } from "./domHelperFunctions";
 import { Task } from "./Task";
+import { projectSelection } from "./additionalLogic";
 
 function openNav() {
   document.getElementById("mySidebar").style.width = "250px";
@@ -37,7 +38,7 @@ function toggleProjects() {
 function addNewProject() {
   const button = document.getElementById("addNewProjectButton");
   const projects = document.querySelector(".projectsCollapsible > ul");
-  const projectsSelect = document.getElementById("projectsSelect");
+  const projectsSelect = document.getElementById("formNewTaskProjectSelect");
 
   button.addEventListener("click", () => {
     const li = domHelper.createElementWithClass("li", "projects-item");
@@ -81,8 +82,8 @@ function deleteButtons() {
   }
 }
 
-function addTask() {
-  const projectsSelect = document.getElementById("projectsSelect");
+function newTaskFormProjectSelection() {
+  const projectsSelect = document.getElementById("formNewTaskProjectSelect");
   const projects = document.querySelector(
     ".projectsCollapsible > ul"
   ).childNodes;
@@ -95,25 +96,28 @@ function addTask() {
   }
 }
 
-function projectSelection() {
-  const today = document.getElementById("todayProjectButton");
-  const inbox = document.getElementById("inboxProjectButton");
-  const header = document.getElementsByClassName("mainHeader")[0].firstChild;
-
-  today.addEventListener("click", () => {
-    header.innerHTML = today.lastChild.innerHTML;
-  });
-  inbox.addEventListener("click", () => {
-    header.innerHTML = inbox.lastChild.innerHTML;
+function addNewTask() {
+  const button = document.getElementById("addNewTaskButton");
+  button.addEventListener("click", () => {
+    const title = document.getElementById("formNewTaskTitle").value;
+    const description = document.getElementById("formNewTaskDescription").value;
+    const dueDate = document.getElementById("formNewTaskDueDate").value;
+    const priority = document.getElementById("formNewTaskPriority").value;
+    const project = document.getElementById("formNewTaskProjectSelect").value;
+    const task = new Task(title, description, dueDate, priority);
+    console.log(task);
   });
 }
 
-export function Events() {
+function Events() {
   taskCardCollapsible();
   toggleSidebar();
   toggleProjects();
   addNewProject();
   projectSelection();
   deleteButtons();
-  addTask();
+  newTaskFormProjectSelection();
+  addNewTask();
 }
+
+export { Events, taskCardCollapsible };

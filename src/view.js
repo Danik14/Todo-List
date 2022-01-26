@@ -116,19 +116,19 @@ function popUpNewTask() {
         <form>
           <div class="form-group mb-3">
             <label for="task-title" class="col-form-label">Title:</label>
-            <input type="text" class="form-control" id="task-title">
+            <input type="text" class="form-control" id="formNewTaskTitle">
           </div>
           <div class="form-group mb-3">
             <label for="description-text" class="col-form-label">Description:</label>
-            <textarea class="form-control" id="description-text"></textarea>
+            <textarea class="form-control" id="formNewTaskDescription"></textarea>
           </div>
           <div class="form-group mb-3">
             <label for="inputDueDate" class="col-form-label">Due Date:</label>
-            <input type="datetime-local" class="form-control" id="inputDueDate">
+            <input type="datetime-local" class="form-control" id="formNewTaskDueDate">
           </div>
           <div class="form-group mb-3">
             <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Priority:</label>
-            <select class="form-select" aria-label="Select Priority">
+            <select class="form-select" id="formNewTaskPriority" aria-label="Select Priority">
               <option selected value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
@@ -136,7 +136,7 @@ function popUpNewTask() {
           </div>
           <div class="form-group mb-3">
             <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Project:</label>
-            <select class="form-select" id="projectsSelect" aria-label="Select Project">
+            <select class="form-select" id="formNewTaskProjectSelect" aria-label="Select Project">
               <option selected value="today">Today</option>
             </select>
           </div>
@@ -144,8 +144,8 @@ function popUpNewTask() {
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="addNewTaskButton">Add Task</button>
       </div>
     </div>
   </div>
@@ -241,6 +241,7 @@ function taskCard1() {
 
 function cards() {
   const ul = domHelper.createElementWithClass("ul", "cards");
+  ul.id = "tasksList";
   domHelper.createListItems(
     [taskCard(), taskCard(), taskCard1()],
     ul,

@@ -16,6 +16,12 @@ export class DomHelperFunctions {
     return domElement;
   }
 
+  static removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+  }
+
   static createListItems(
     innerElmArr,
     ulElement,
