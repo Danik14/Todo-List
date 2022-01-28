@@ -1,4 +1,5 @@
 import { DomHelperFunctions as domHelper } from "./domHelperFunctions";
+import { allLocalStorage } from "./additionalLogic";
 
 function header() {
   const header = domHelper.createElementWithClass("header", "header");
@@ -40,10 +41,24 @@ function projectsCollapsible() {
   <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z"/>
 </svg> New Project`;
 
-  const projectBtn = domHelper.createElementWithClass("button", "projectBtn");
-  projectBtn.innerHTML = "Project 1";
+  const projectList = allLocalStorage();
+  const newProjectList = [];
 
-  domHelper.createListItems([projectBtn, button], ul, "projects-item");
+  for (const element of projectList) {
+    const name = JSON.parse(element)._name;
+    if (name != "Today" && name != "Inbox") {
+      const projectBtn = domHelper.createElementWithClass(
+        "button",
+        "projectBtn"
+      );
+      projectBtn.innerHTML = name;
+      newProjectList.push(projectBtn);
+    }
+  }
+
+  newProjectList.push(button);
+
+  domHelper.createListItems(newProjectList, ul, "projects-item");
   projectsCollapsible.appendChild(ul);
 
   return projectsCollapsible;
@@ -82,6 +97,7 @@ function sidebar() {
   const inbox = document.createElement("button");
   inbox.id = "inboxProjectButton";
   const today = document.createElement("button");
+  today.setAttribute("data-key", "Today");
   today.id = "todayProjectButton";
   today.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
   <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -137,7 +153,7 @@ function popUpNewTask() {
           <div class="form-group mb-3">
             <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Project:</label>
             <select class="form-select" id="formNewTaskProjectSelect" aria-label="Select Project">
-              <option selected value="today">Today</option>
+              <option selected value="Today">Today</option>
             </select>
           </div>
           
@@ -145,7 +161,7 @@ function popUpNewTask() {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" id="addNewTaskButton">Add Task</button>
+        <button type="button" class="btn btn-primary" id="addNewTaskButton" data-bs-dismiss="modal">Add Task</button>
       </div>
     </div>
   </div>
@@ -176,77 +192,55 @@ function taskOptions() {
   return options;
 }
 
-function taskCardDetails() {
-  const div = domHelper.createElementWithClass("div", "taskDetails");
-  div.id = "taskDetails";
-  const description = domHelper.createElementWithClass(
-    "div",
-    "taskDescription"
-  );
-  const dateAndPriority = domHelper.createElementWithClass(
-    "div",
-    "dateAndPriority"
-  );
-  const date = document.createElement("p");
-  const priority = document.createElement("p");
-  const desc = document.createElement("p");
-  desc.innerHTML = "Description: 12312312313123";
-  date.innerHTML = "Due Date: 12/12/1212";
-  priority.innerHTML = "Priority: Medium";
-  description.appendChild(desc);
-  dateAndPriority.appendChild(date);
-  dateAndPriority.appendChild(priority);
+// function taskCardDetails() {
+//   const div = domHelper.createElementWithClass("div", "taskDetails");
+//   div.id = "taskDetails";
+//   const description = domHelper.createElementWithClass(
+//     "div",
+//     "taskDescription"
+//   );
+//   const dateAndPriority = domHelper.createElementWithClass(
+//     "div",
+//     "dateAndPriority"
+//   );
+//   const date = document.createElement("p");
+//   const priority = document.createElement("p");
+//   const desc = document.createElement("p");
+//   desc.innerHTML = "Description: 12312312313123";
+//   date.innerHTML = "Due Date: 12/12/1212";
+//   priority.innerHTML = "Priority: Medium";
+//   description.appendChild(desc);
+//   dateAndPriority.appendChild(date);
+//   dateAndPriority.appendChild(priority);
 
-  div.appendChild(description);
-  div.appendChild(dateAndPriority);
+//   div.appendChild(description);
+//   div.appendChild(dateAndPriority);
 
-  return div;
-}
+//   return div;
+// }
 
-function taskCard() {
-  const card = domHelper.createElementWithClass("button", "taskCard");
-  card.id = "taskCard";
-  const cardMain = domHelper.createElementWithClass("div", "cardMain");
-  const cardTitle = document.createElement("div");
-  const options = taskOptions();
+// function taskCard() {
+//   const card = domHelper.createElementWithClass("button", "taskCard");
+//   card.id = "taskCard";
+//   const cardMain = domHelper.createElementWithClass("div", "cardMain");
+//   const cardTitle = document.createElement("div");
+//   const options = taskOptions();
 
-  cardTitle.innerHTML = "dummyCard";
+//   cardTitle.innerHTML = "dummyCard";
 
-  cardMain.appendChild(cardTitle);
-  cardMain.appendChild(options);
+//   cardMain.appendChild(cardTitle);
+//   cardMain.appendChild(options);
 
-  card.appendChild(cardMain);
-  card.appendChild(taskCardDetails());
+//   card.appendChild(cardMain);
+//   card.appendChild(taskCardDetails());
 
-  return card;
-}
-
-function taskCard1() {
-  const card = domHelper.createElementWithClass("button", "taskCard");
-  card.id = "taskCard";
-  const cardMain = domHelper.createElementWithClass("div", "cardMain");
-  const cardTitle = document.createElement("div");
-  const options = taskOptions();
-
-  cardTitle.innerHTML = "dummyCard111";
-
-  cardMain.appendChild(cardTitle);
-  cardMain.appendChild(options);
-
-  card.appendChild(cardMain);
-  card.appendChild(taskCardDetails());
-
-  return card;
-}
+//   return card;
+// }
 
 function cards() {
   const ul = domHelper.createElementWithClass("ul", "cards");
   ul.id = "tasksList";
-  domHelper.createListItems(
-    [taskCard(), taskCard(), taskCard1()],
-    ul,
-    "tasksListItem"
-  );
+  domHelper.createListItems([], ul, "tasksListItem");
 
   return ul;
 }

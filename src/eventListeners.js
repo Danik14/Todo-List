@@ -1,6 +1,12 @@
 import { DomHelperFunctions as domHelper } from "./domHelperFunctions";
 import { Task } from "./Task";
-import { projectSelection } from "./additionalLogic";
+import {
+  projectSelection,
+  allLocalStorage,
+  addProjectToLocalStorage,
+  addTaskToLocalStorage,
+} from "./additionalLogic";
+import { Project } from "./Project";
 
 function openNav() {
   document.getElementById("mySidebar").style.width = "250px";
@@ -43,17 +49,24 @@ function addNewProject() {
   button.addEventListener("click", () => {
     const li = domHelper.createElementWithClass("li", "projects-item");
     const projectBtn = domHelper.createElementWithClass("button", "projectBtn");
-    projectBtn.innerHTML = document.getElementById("newProjectInput").value;
+    const projectName = document.getElementById("newProjectInput").value;
+    projectBtn.innerHTML = projectName;
     li.appendChild(projectBtn);
     projects.insertBefore(
       li,
       projects.childNodes[projects.childNodes.length - 1]
     );
 
+    //adding option tag of new project to newTask form
     const opt = document.createElement("option");
     opt.setAttribute("value", projectBtn.innerHTML);
     opt.innerHTML = projectBtn.innerHTML;
     projectsSelect.appendChild(opt);
+
+    const newProject = new Project(projectName);
+    addProjectToLocalStorage(newProject);
+
+    setDataIds();
   });
 }
 
@@ -99,14 +112,35 @@ function newTaskFormProjectSelection() {
 function addNewTask() {
   const button = document.getElementById("addNewTaskButton");
   button.addEventListener("click", () => {
+    const projects = allLocalStorage();
     const title = document.getElementById("formNewTaskTitle").value;
     const description = document.getElementById("formNewTaskDescription").value;
     const dueDate = document.getElementById("formNewTaskDueDate").value;
     const priority = document.getElementById("formNewTaskPriority").value;
-    const project = document.getElementById("formNewTaskProjectSelect").value;
+    const projectName = document.getElementById(
+      "formNewTaskProjectSelect"
+    ).value;
+
     const task = new Task(title, description, dueDate, priority);
-    console.log(task);
+    addTaskToLocalStorage(task, projectName);
+
+    //simulating click instead of page refreshing
+    document.querySelector(`button[data-key=${projectName}]`).click();
   });
+}
+
+function setDataIds() {
+  const projects = allLocalStorage();
+  const projects_ = document.querySelector(
+    ".projectsCollapsible > ul > li"
+  ).childNodes;
+  for (const project_ of projects_) {
+    for (const project of projects) {
+      if (project_.innerHTML == JSON.parse(project)._name) {
+        project_.setAttribute("data-key", `${JSON.parse(project)._name}`);
+      }
+    }
+  }
 }
 
 function Events() {
@@ -117,6 +151,7 @@ function Events() {
   projectSelection();
   deleteButtons();
   newTaskFormProjectSelection();
+  setDataIds();
   addNewTask();
 }
 
