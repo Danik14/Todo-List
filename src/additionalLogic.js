@@ -109,9 +109,6 @@ function createProjectList(projectName) {
 function projectSelection() {
   const today = document.getElementById("todayProjectButton");
   const inbox = document.getElementById("inboxProjectButton");
-  const projects_ = document.querySelector(
-    ".projectsCollapsible > ul > li"
-  ).childNodes;
 
   today.addEventListener("click", () => {
     createProjectList("Today");
@@ -119,6 +116,12 @@ function projectSelection() {
   inbox.addEventListener("click", () => {
     createProjectList("Inbox");
   });
+
+  additionalProjectsSelection();
+}
+
+function additionalProjectsSelection() {
+  const projects_ = document.getElementsByClassName("projectBtn");
 
   for (const project_ of projects_) {
     project_.addEventListener("click", () => {
@@ -142,4 +145,5 @@ export {
   allLocalStorage,
   addProjectToLocalStorage,
   addTaskToLocalStorage,
+  additionalProjectsSelection,
 };

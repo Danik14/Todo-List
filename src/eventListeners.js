@@ -5,6 +5,7 @@ import {
   allLocalStorage,
   addProjectToLocalStorage,
   addTaskToLocalStorage,
+  additionalProjectsSelection,
 } from "./additionalLogic";
 import { Project } from "./Project";
 
@@ -67,6 +68,7 @@ function addNewProject() {
     addProjectToLocalStorage(newProject);
 
     setDataIds();
+    additionalProjectsSelection();
   });
 }
 
@@ -131,9 +133,7 @@ function addNewTask() {
 
 function setDataIds() {
   const projects = allLocalStorage();
-  const projects_ = document.querySelector(
-    ".projectsCollapsible > ul > li"
-  ).childNodes;
+  const projects_ = document.getElementsByClassName("projectBtn");
   for (const project_ of projects_) {
     for (const project of projects) {
       if (project_.innerHTML == JSON.parse(project)._name) {
@@ -148,11 +148,11 @@ function Events() {
   toggleSidebar();
   toggleProjects();
   addNewProject();
-  projectSelection();
   deleteButtons();
   newTaskFormProjectSelection();
   setDataIds();
   addNewTask();
+  projectSelection();
 }
 
 export { Events, taskCardCollapsible };
