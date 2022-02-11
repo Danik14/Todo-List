@@ -86,15 +86,71 @@ function taskCardCollapsible() {
   }
 }
 
+function deleteFromInbox(taskId) {
+  const projects = allLocalStorage();
+
+  for (const project of projects) {
+    const parsed = JSON.parse(project);
+    if (parsed._name == "Inbox") {
+      let tasksList = JSON.parse(
+        localStorage.getItem(parsed._id)
+      )._projectTasks;
+
+      for (const task of tasksList) {
+        if (task._id == taskId) {
+          tasksList.splice(tasksList.indexOf(task), 1);
+          break;
+        }
+      }
+      parsed._projectTasks = tasksList;
+      localStorage.setItem(parsed._id, JSON.stringify(parsed));
+      break;
+    }
+  }
+}
+
 function deleteButtons() {
   const buttons = document.getElementsByClassName("deleteButton");
   for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener("click", () => {
-      const taskCard =
-        buttons[i].parentElement.parentElement.parentElement.parentElement;
-      taskCard.remove();
-    });
+    deleteTaskEvent(buttons[i]);
   }
+}
+
+function deleteTaskEvent(button) {
+  button.addEventListener("click", () => {
+    const taskCard =
+      button.parentElement.parentElement.parentElement.parentElement;
+    const taskId = taskCard.getAttribute("data-id");
+    if (button.getAttribute("data-id") == taskId) {
+      const projectName = taskCard.getAttribute("data-name");
+      const projects = allLocalStorage();
+
+      for (const project of projects) {
+        const parsed = JSON.parse(project);
+        if (parsed._name == projectName) {
+          let tasksList = JSON.parse(
+            localStorage.getItem(parsed._id)
+          )._projectTasks;
+
+          console.log(tasksList);
+
+          for (const task of tasksList) {
+            if (task._id == taskId) {
+              tasksList.splice(tasksList.indexOf(task), 1);
+              break;
+            }
+          }
+          parsed._projectTasks = tasksList;
+          localStorage.setItem(parsed._id, JSON.stringify(parsed));
+          break;
+        }
+      }
+      deleteFromInbox(taskId);
+      const currentProject =
+        document.getElementsByClassName("mainHeader")[0].firstChild.innerHTML;
+      document.querySelector(`[data-key='${currentProject}']`).click();
+    }
+  });
 }
 
 function newTaskFormProjectSelection() {
@@ -114,7 +170,6 @@ function newTaskFormProjectSelection() {
 function addNewTask() {
   const button = document.getElementById("addNewTaskButton");
   button.addEventListener("click", () => {
-    const projects = allLocalStorage();
     const title = document.getElementById("formNewTaskTitle").value;
     const description = document.getElementById("formNewTaskDescription").value;
     const dueDate = document.getElementById("formNewTaskDueDate").value;
@@ -123,7 +178,8 @@ function addNewTask() {
       "formNewTaskProjectSelect"
     ).value;
 
-    const task = new Task(title, description, dueDate, priority);
+    const task = new Task(title, description, dueDate, priority, projectName);
+    console.log(task);
     addTaskToLocalStorage(task, projectName);
 
     //simulating click instead of page refreshing
@@ -155,4 +211,4 @@ function Events() {
   projectSelection();
 }
 
-export { Events, taskCardCollapsible };
+export { Events, taskCardCollapsible, deleteButtons };

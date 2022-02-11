@@ -1,7 +1,7 @@
 import { Task } from "./Task";
 import { Project } from "./Project";
 import { DomHelperFunctions as domHelper } from "./domHelperFunctions";
-import { taskCardCollapsible } from "./eventListeners";
+import { deleteButtons, taskCardCollapsible } from "./eventListeners";
 
 let Inbox = new Project("Inbox");
 let Today = new Project("Today");
@@ -12,7 +12,7 @@ const task2 = new Task("new Task2", "some description", "12/12/1212", "low");
 addProjectToLocalStorage(Today);
 addProjectToLocalStorage(Inbox);
 
-console.log(localStorage);
+//console.log(JSON.parse(localStorage.getItem("_zm3te3i0m"))._projectTasks);
 
 function allLocalStorage() {
   let values = [],
@@ -67,6 +67,13 @@ function addProjectToLocalStorage(project) {
   localStorage.setItem(project.id, JSON.stringify(project));
 }
 
+// function createProjectListInbox(){
+//   const header = document.getElementsByClassName("mainHeader")[0].firstChild;
+//   header.innerHTML = 'Inbox';
+//   const ul = document.getElementById("tasksList");
+//   domHelper.removeAllChildNodes(ul);
+// }
+
 function createProjectList(projectName) {
   const header = document.getElementsByClassName("mainHeader")[0].firstChild;
   header.innerHTML = projectName;
@@ -82,6 +89,8 @@ function createProjectList(projectName) {
       )._projectTasks;
       for (const task of tasksList) {
         const li = domHelper.createElementWithClass("li", "tasksListItem");
+        li.setAttribute("data-id", task._id);
+        li.setAttribute("data-name", task._projectName);
         const taskCard = domHelper.createElementWithClass("button", "taskCard");
         taskCard.id = "taskCard";
         const cardMain = domHelper.createElementWithClass("div", "cardMain");
@@ -89,7 +98,7 @@ function createProjectList(projectName) {
           "div",
           "taskDetails"
         );
-        cardMain.innerHTML = `<div>${task._title}</div><div class="taskOptions"><button class="deleteButton"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+        cardMain.innerHTML = `<div>${task._title}</div><div class="taskOptions"><button class="deleteButton" data-id="${task._id}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
   <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
   <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
 </svg></button></div>`;
@@ -100,6 +109,7 @@ function createProjectList(projectName) {
         li.appendChild(taskCard);
         ul.appendChild(li);
       }
+      deleteButtons();
       taskCardCollapsible();
       return;
     }

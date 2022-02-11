@@ -30,6 +30,7 @@ function App() {
   flatpickr(document.getElementById("formNewTaskDueDate"), {});
 
   Events();
+  document.getElementById("inboxProjectButton").click();
 }
 
 App();

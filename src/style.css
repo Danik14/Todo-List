@@ -145,6 +145,7 @@ li {
   justify-content: space-between;
   width: 80%;
   max-width: 80%;
+  z-index: 10;
 }
 
 .cardMain,
@@ -178,5 +179,5 @@ li {
 }
 
 .deleteButton {
-  z-index: 1;
+  z-index: 11;
 }

@@ -96,6 +96,7 @@ function sidebar() {
   projects.id = "projectsButton";
   const inbox = document.createElement("button");
   inbox.id = "inboxProjectButton";
+  inbox.setAttribute("data-key", "Inbox");
   const today = document.createElement("button");
   today.setAttribute("data-key", "Today");
   today.id = "todayProjectButton";
